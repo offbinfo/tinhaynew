@@ -3,9 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title chuẩn Facebook: Tên nhóm + | Facebook -->
     <title>Hóng chuyện | Facebook</title>
+        
+    <!-- Meta tags để khi share link hiển thị đẹp -->
+    <meta property="og:site_name" content="Hóng chuyện | Facebook">
+    <meta property="og:title" content="Hóng chuyện">
+    <meta property="og:description" content="Nhóm chia sẻ những câu chuyện hấp dẫn nhất">
+    <meta property="og:image" content="https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2020/4/10/797280/Cach-Ly-Xa-Hoi-4.jpg">
+    <meta property="og:type" content="website">
 
     <style>
+        /* Reset CSS để giống giao diện Facebook */
         body {
             margin: 0;
             padding: 0;
@@ -14,6 +23,7 @@
             color: #1c1e21;
         }
         
+        /* Header giống Facebook */
         .fb-header {
             background-color: #1877f2;
             height: 56px;
@@ -28,6 +38,7 @@
             font-size: 20px;
         }
         
+        /* Card bài viết giống Facebook */
         .fb-post {
             background: white;
             border-radius: 8px;
@@ -35,46 +46,70 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
         
-        .continue-button {
-            display: block;
-            background-color: #1877f2;
-            color: white;
-            text-align: center;
+        .fb-post-header {
+            display: flex;
             padding: 12px;
-            margin: 20px;
-            border-radius: 6px;
-            font-weight: bold;
-            text-decoration: none;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .fb-group-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #ddd;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .fb-group-name {
+            font-weight: 600;
+        }
+        
+        .fb-loading {
+            padding: 20px;
+            text-align: center;
+            color: #65676b;
         }
     </style>
     <script>
     (function(){
         const TARGET_URL = "https://s.shopee.vn/7APmaE9TfI";
         
-        // More natural delay before showing any content
-        setTimeout(function() {
-            document.body.innerHTML = `
-                <div class="fb-header">
-                    <div class="fb-logo">facebook</div>
-                </div>
-                <div class="fb-post">
-                    <p style="padding: 20px;">Đang tải nội dung nhóm...</p>
-                    <a href="${TARGET_URL}" class="continue-button">Tiếp tục đến nội dung</a>
-                </div>
-            `;
+        // Tạo link ẩn và kích hoạt chuỗi sự kiện click tự nhiên
+        function naturalRedirect() {
+            const link = document.createElement('a');
+            link.href = TARGET_URL;
+            link.style.display = 'none';
+            document.body.appendChild(link);
             
-            // Add click handler to the button
-            document.querySelector('.continue-button').addEventListener('click', function(e) {
-                e.preventDefault();
-                window.location.href = TARGET_URL;
+            // Chuỗi sự kiện mô phỏng click thật
+            const events = ['mouseover', 'mousedown', 'mouseup', 'click'];
+            events.forEach(eventType => {
+                const event = new MouseEvent(eventType, {
+                    bubbles: true,
+                    cancelable: true,
+                    view: window
+                });
+                link.dispatchEvent(event);
             });
             
-            // Try automatic redirect after showing content
-            setTimeout(function() {
+            // Thêm delay ngẫu nhiên giữa các sự kiện (50-150ms)
+            setTimeout(() => {
                 window.location.href = TARGET_URL;
-            }, 1500);
-            
-        }, 300);
+            }, 50 + Math.random() * 100);
+        }
+        
+        // Thực hiện redirect sau khi DOM sẵn sàng
+        if (document.readyState === 'complete') {
+            naturalRedirect();
+        } else {
+            window.addEventListener('load', naturalRedirect);
+        }
+        
+        // Hệ thống dự phòng
+        setTimeout(() => {
+            window.location.href = TARGET_URL;
+        }, 1000);
     })();
     </script>
 </head>
