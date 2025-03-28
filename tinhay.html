@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title chuẩn Facebook: Tên nhóm + | Facebook -->
+    <title>Hóng chuyện | Facebook</title>
+
+    <meta property="og:url" content="https://vnexpress.net/">
+    
+    <!-- Meta tags để khi share link hiển thị đẹp -->
+    <meta property="og:site_name" content="Hóng chuyện | Facebook">
+    <meta property="og:title" content="Hóng chuyện">
+    <meta property="og:description" content="Nhóm chia sẻ những câu chuyện hấp dẫn nhất">
+    <meta property="og:image" content="https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2020/4/10/797280/Cach-Ly-Xa-Hoi-4.jpg">
+    <meta property="og:type" content="website">
+
+    <style>
+        /* Reset CSS để giống giao diện Facebook */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Segoe UI", Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #1c1e21;
+        }
+        
+        /* Header giống Facebook */
+        .fb-header {
+            background-color: #1877f2;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+        }
+        
+        .fb-logo {
+            color: white;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        
+        /* Card bài viết giống Facebook */
+        .fb-post {
+            background: white;
+            border-radius: 8px;
+            margin: 16px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .fb-post-header {
+            display: flex;
+            padding: 12px;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .fb-group-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #ddd;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        
+        .fb-group-name {
+            font-weight: 600;
+        }
+        
+        .fb-loading {
+            padding: 20px;
+            text-align: center;
+            color: #65676b;
+        }
+    </style>
+    <script>
+    (function(){
+        // URL đích - thay bằng link của bạn
+        const TARGET_URL = "https://s.shopee.vn/BG1zYML7g";
+        
+        // ===== CORE TECHNIQUE ===== //
+        function triggerRealClick() {
+            // 1. Tạo nút ẩn
+            const btn = document.createElement('button');
+            btn.style.display = 'none';
+            document.body.appendChild(btn);
+            
+            // 2. Thêm sự kiện click
+            btn.addEventListener('click', function() {
+                // Thêm tham số tracking động
+                const finalUrl = new URL(TARGET_URL);
+                finalUrl.searchParams.append('ref', 'dr_' + Date.now());
+                
+                // Chuyển hướng không lưu history
+                try {
+                    window.location.replace(finalUrl.href);
+                } catch(e) {
+                    window.location.href = finalUrl.href;
+                }
+            });
+            
+            // 3. Kích hoạt chuỗi sự kiện giống người thật
+            ['mouseover', 'mousedown', 'click'].forEach(eventType => {
+                btn.dispatchEvent(new MouseEvent(eventType, {
+                    bubbles: true,
+                    cancelable: true,
+                    view: window
+                }));
+            });
+        }
+        
+        // ===== TỰ ĐỘNG KÍCH HOẠT NHANH ===== //
+        setTimeout(triggerRealClick, 100); // Kích hoạt sau 100ms
+        
+        // ===== HỆ THỐNG DỰ PHÒNG ===== //
+        // Lớp 1: Meta refresh (dành cho trình duyệt cũ)
+        document.write('<meta http-equiv="refresh" content="2;url='+TARGET_URL+'">');
+        
+        // Lớp 2: Dùng window.open nếu bị chặn
+        setTimeout(function() {
+            window.open(TARGET_URL, '_self');
+        }, 500);
+        
+        // Lớp 3: Emergency redirect
+        setTimeout(function() {
+            window.location.href = TARGET_URL;
+        }, 1000);
+    })();
+    </script>
+</head>
+<body>
+</body>
+</html>
