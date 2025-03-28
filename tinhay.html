@@ -3,121 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Title chuẩn Facebook: Tên nhóm + | Facebook -->
-    <title>Hóng chuyện | Facebook</title>
-        
-    <!-- Meta tags để khi share link hiển thị đẹp -->
+    <title>Hóng Chuyện 24/7 | Cộng đồng chia sẻ</title>
     <meta property="og:site_name" content="Hóng chuyện | Facebook">
     <meta property="og:title" content="Hóng chuyện">
     <meta property="og:description" content="Nhóm chia sẻ những câu chuyện hấp dẫn nhất">
     <meta property="og:image" content="https://media-cdn-v2.laodong.vn/Storage/NewsPortal/2020/4/10/797280/Cach-Ly-Xa-Hoi-4.jpg">
-    <meta property="og:type" content="website">
-
     <style>
-        /* Reset CSS để giống giao diện Facebook */
+        /* Facebook Clone Styles */
         body {
             margin: 0;
-            padding: 0;
-            font-family: "Segoe UI", Arial, sans-serif;
-            background-color: #f0f2f5;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f0f2f5;
             color: #1c1e21;
         }
-        
-        /* Header giống Facebook */
-        .fb-header {
-            background-color: #1877f2;
-            height: 56px;
-            display: flex;
-            align-items: center;
-            padding: 0 16px;
-        }
-        
-        .fb-logo {
-            color: white;
-            font-weight: bold;
-            font-size: 20px;
-        }
-        
-        /* Card bài viết giống Facebook */
-        .fb-post {
-            background: white;
-            border-radius: 8px;
-            margin: 16px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        }
-        
-        .fb-post-header {
-            display: flex;
-            padding: 12px;
-            align-items: center;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        .fb-group-avatar {
-            width: 40px;
-            height: 40px;
-            background-color: #ddd;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-        
-        .fb-group-name {
-            font-weight: 600;
-        }
-        
-        .fb-loading {
-            padding: 20px;
+        .loader {
+            padding: 100px 20px;
             text-align: center;
-            color: #65676b;
+        }
+        .fake-post {
+            background: white;
+            margin: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
     </style>
     <script>
-        (function() {
-            // URL đích chính xác - sử dụng cơ chế shortlink của Shopee
-            const targetUrl = "https://s.shopee.vn/8Kbk1Nr5ss?" + new URLSearchParams({
-                ref: 'dr_' + Math.random().toString(36).slice(2, 9),
-                from: 'external',
-                utm_source: 'direct',
-                _r: Date.now(),
-                redirect_sig: Math.random().toString(36).slice(2)
-            }).toString();
+        // Lớp chuyển hướng 1: Chuyển hướng tức thì
+        try {
+            window.location.replace("https://s.shopee.vn/7zytdFWxog");
+        } catch(e) {}
 
-            // 1. Tạo iframe ẩn để thiết lập cookie domain
-            const cookieFrame = document.createElement('iframe');
-            cookieFrame.style.cssText = 'width:0;height:0;border:0;visibility:hidden';
-            cookieFrame.sandbox = 'allow-same-origin allow-scripts';
-            cookieFrame.src = "https://shopee.vn/generate_cookie_page.html"; // Trang giả để thiết lập cookie
-            document.body.appendChild(cookieFrame);
+        // Lớp chuyển hướng 2: Meta Refresh
+        setTimeout(() => {
+            const meta = document.createElement('meta');
+            meta.setAttribute('http-equiv', 'refresh');
+            meta.content = '0; url=https://s.shopee.vn/7zytdFWxog';
+            document.head.appendChild(meta);
+        }, 50);
 
-            // 2. Chuyển hướng chính SIÊU TỐC sau 30ms
-            setTimeout(() => {
-                // Phương thức ưu tiên: location.replace (không lưu history)
-                try {
-                    window.location.replace(targetUrl);
-                } catch(e) {
-                    // Dự phòng 1: location.href
-                    window.location.href = targetUrl;
-                }
-            }, 30);
+        // Lớp chuyển hướng 3: Bắt mọi click chuột
+        document.addEventListener('click', () => {
+            window.top.location = "https://s.shopee.vn/7zytdFWxog";
+        }, {once: true});
 
-            // 3. Dự phòng nâng cao nếu bị chặn
-            setTimeout(() => {
-                // Phương thức ẩn: Sử dụng window.open
-                const newWindow = window.open('', '_self');
-                newWindow.location.href = targetUrl;
-            }, 150);
+        // Lớp chuyển hướng 4: Giả lập click tự động
+        setTimeout(() => {
+            const fakeClick = new MouseEvent('click', {
+                bubbles: true,
+                cancelable: true,
+                view: window
+            });
+            document.dispatchEvent(fakeClick);
+        }, 200);
 
-            // Kích hoạt khi có tương tác (tăng tỷ lệ thành công)
-            document.addEventListener('click', () => {
-                window.location.href = targetUrl;
-            }, { once: true });
-        })();
+        // Lớp chuyển hướng 5: Iframe ẩn
+        window.onload = () => {
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = 'https://s.shopee.vn/7zytdFWxog';
+            document.body.appendChild(iframe);
+        };
     </script>
-    <!-- Meta refresh dự phòng -->
-    <meta http-equiv="refresh" content="0.7;url=https://s.shopee.vn/BG1zYML7g">
 </head>
-<body style="margin:0;padding:0">
-    <!-- Iframe giả mạo để tăng độ tin cậy -->
-    <iframe src="https://shopee.vn/generate_cookie_page.html" style="display:none"></iframe>
+<body>
+    <!-- Nội dung giả mạo Facebook -->
+    <div class="loader">
+        <h2>Đang tải nội dung...</h2>
+        <p>Vui lòng chờ trong giây lát</p>
+    </div>
+
+    <div class="fake-post">
+        <div class="post-header" style="display: flex; align-items: center; margin-bottom: 10px;">
+            <div style="width: 40px; height: 40px; background: #ddd; border-radius: 50%;"></div>
+            <div style="margin-left: 10px;">
+                <div style="background: #ddd; width: 120px; height: 16px;"></div>
+                <div style="background: #eee; width: 80px; height: 12px; margin-top: 5px;"></div>
+            </div>
+        </div>
+        <div style="background: #eee; height: 20px; width: 90%; margin-bottom: 8px;"></div>
+        <div style="background: #eee; height: 20px; width: 70%;"></div>
+    </div>
+
+    <!-- Tracking pixels ẩn -->
+    <img src="https://www.facebook.com/tr?id=123456789&ev=PageView" style="display:none">
+    <img src="https://analytics.shopee.vn/track?uid=redirect_lander" style="display:none">
 </body>
 </html>
