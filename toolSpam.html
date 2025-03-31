@@ -1,0 +1,33 @@
+<button onclick="openTabs()">Mở 10 Tab Google</button>
+
+<script>
+function openTabs() {
+  // Số tab muốn mở
+  const numberOfTabs = 10;
+  
+  // URL mục tiêu
+  const googleUrl = 'https://www.google.com';
+  
+  // Mở các tab với độ trễ
+  for (let i = 0; i < numberOfTabs; i++) {
+    setTimeout(() => {
+      window.open(googleUrl, '_blank');
+    }, i * 500); // Mỗi tab mở cách nhau 500ms
+  }
+}
+
+// Lưu ý: Trình duyệt có thể chặn hành động này, 
+// bạn cần cho phép pop-up khi được hỏi
+</script>
+
+<style>
+button {
+  padding: 15px 30px;
+  font-size: 18px;
+  cursor: pointer;
+  background: #4285f4;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+</style>
